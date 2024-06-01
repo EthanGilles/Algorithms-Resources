@@ -1,0 +1,299 @@
+% +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+% University of Southern Maine
+% Department of Computer Science
+% Discrete Mathematics II (COS 280)
+% James Quinlan (https://cs.usm.maine.edu/~james.quinlan/)
+% Homework Template
+% +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+% EDIT Lines: 11, 12, 13
+\def\filename{Merge Sort}   		   % included file (edit file)
+\def\chapsec{Diagram}  % Chapter/Section/Topic
+\def\yourname{Merge Sort}	   % Your name
+\def\course{COS 485}		   % Course (if different)
+
+
+
+% ---------------- Do NOT Edit Below ------------------------
+% -----------------------------------------------------------
+\documentclass[11pt]{article}
+
+\def\pf{\textit{Proof}: }
+
+\usepackage{mathtools}
+\usepackage{epsfig}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{amscd}
+\usepackage{amsmath}
+\usepackage{xspace}
+\usepackage{theorem}
+\usepackage{float}
+\usepackage[table]{xcolor}
+\usepackage{color}
+\usepackage{soul}
+\usepackage{booktabs}
+\usepackage{outlines}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{pgf-pie}
+\usepackage{fancybox}
+\usepackage{circuitikz}
+\setenumerate[1]{label=\arabic*.}
+\setenumerate[2]{label=(\alph*).}
+\setenumerate[3]{label=\roman*.}
+\setenumerate[4]{label=\alph*.}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={\filename},
+    pdfpagemode=FullScreen,
+    }
+
+% TikZ
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+
+% Colors
+\definecolor{stainlessSteel}{cmyk}{0,0,0.02,0.12}
+
+% Document Geometry
+\makeatletter
+ \setlength{\textwidth}{6.75in}
+ \setlength{\oddsidemargin}{0in}
+ \setlength{\evensidemargin}{0in}
+ \setlength{\topmargin}{0.0125in}
+ \setlength{\textheight}{9.0in}
+ \setlength{\headheight}{0pt}
+ \setlength{\headsep}{0pt}
+ \setlength{\marginparwidth}{59pt}
+
+ \setlength{\parindent}{0pt}
+ \setlength{\parskip}{5pt plus 1pt}
+ \setlength{\theorempreskipamount}{5pt plus 1pt}
+ \setlength{\theorempostskipamount}{0pt}
+ \setlength{\abovedisplayskip}{8pt plus 3pt minus 6pt}
+ \setlength{\intextsep}{15pt plus 3pt minus 6pt}
+
+ % Headings
+ \renewcommand{\section}{\@startsection{section}{1}{0mm}%
+    {2ex plus -1ex minus -.2ex}%
+    {1.3ex plus .2ex}%
+    {\normalfont\Large\bfseries}}%
+ \renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+    {1ex plus -1ex minus -.2ex}%
+    {1ex plus .2ex}%
+    {\normalfont\large\bfseries}}%
+ \renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+    {1ex plus -1ex minus -.2ex}%
+    {1ex plus .2ex}%
+    {\normalfont\normalsize\bfseries}}
+ \renewcommand\paragraph{\@startsection{paragraph}{4}{0mm}%
+    {1ex \@plus1ex \@minus.2ex}%
+    {-1em}%
+    {\normalfont\normalsize\bfseries}}
+ \renewcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
+    {2.0ex \@plus1ex \@minus .2ex}%
+    {-1em}%
+    {\normalfont\normalsize\bfseries}}
+\makeatother
+
+\newcounter{thelecture}
+
+\newenvironment{proof}{{\bf Proof:  }}{\hfill\rule{2mm}{2mm}}
+\newenvironment{proofof}[1]{{\bf Proof of #1:  }}{\hfill\rule{2mm}{2mm}}
+\newenvironment{proofofnobox}[1]{{\bf#1:  }}{}
+\newenvironment{example}{{\bf Example: }}{\hfill\rule{0mm}{0mm}} % change 2mm 2mm for square
+
+%\renewcommand{\theequation}{\thesection.\arabic{equation}}
+%\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+
+\newtheorem{fact}{Fact}
+\newtheorem{lemma}[fact]{Lemma}
+\newtheorem{theorem}[fact]{Theorem}
+\newtheorem{definition}[fact]{Definition}
+\newtheorem{corollary}[fact]{Corollary}
+\newtheorem{proposition}[fact]{Proposition}
+\newtheorem{claim}[fact]{Claim}
+\newtheorem{exercise}[fact]{Exercise}
+
+% math notation
+\newcommand{\R}{\ensuremath{\mathbb R}}
+\newcommand{\Z}{\ensuremath{\mathbb Z}}
+\newcommand{\N}{\ensuremath{\mathbb N}}
+\newcommand{\B}{\ensuremath{\mathbb B}}
+\newcommand{\F}{\ensuremath{\mathcal F}}
+\newcommand{\SymGrp}{\ensuremath{\mathfrak S}}
+\newcommand{\prob}[1]{\ensuremath{\text{{\bf Pr}$\left[#1\right]$}}}
+\newcommand{\expct}[1]{\ensuremath{\text{{\bf E}$\left[#1\right]$}}}
+\newcommand{\size}[1]{\ensuremath{\left|#1\right|}}
+\newcommand{\ceil}[1]{\ensuremath{\left\lceil#1\right\rceil}}
+\newcommand{\floor}[1]{\ensuremath{\left\lfloor#1\right\rfloor}}
+\newcommand{\ang}[1]{\ensuremath{\langle{#1}\rangle}}
+\newcommand{\poly}{\operatorname{poly}}
+\newcommand{\polylog}{\operatorname{polylog}}
+
+% Anupam's abbreviations
+\newcommand{\e}{\epsilon}
+\newcommand{\half}{\ensuremath{\frac{1}{2}}}
+\newcommand{\junk}[1]{}
+\newcommand{\sse}{\subseteq}
+\newcommand{\union}{\cup}
+\newcommand{\meet}{\wedge}
+\newcommand{\dist}[1]{\|{#1}\|_{\text{dist}}}
+\newcommand{\hooklongrightarrow}{\lhook\joinrel\longrightarrow}
+\newcommand{\embeds}[1]{\;\lhook\joinrel\xrightarrow{#1}\;}
+\newcommand{\mnote}[1]{\normalmarginpar \marginpar{\tiny #1}}
+
+
+
+% -----------------------------------------------------------
+% Header
+\newcommand{\hwheadings}[3]{
+{\chapsec } \hfill {{ \yourname }} \hfill {{ \course #1}}\\
+{{\bf } #2} \hfill { #3} 
+\rule[0.051in]{\textwidth}{0.0025in}
+%\thispagestyle{empty}
+}
+
+% Document begins here 
+\begin{document}
+\hwheadings{}{}{}
+
+\section*{\centering Merge Sort}
+\label{sec:title}
+
+% - \usepackage{circuitikz} for this to compile
+\begin{figure}[!ht]
+\label{fig:merge-sort}
+\centering
+\resizebox{1\textwidth}{!}{%
+\begin{circuitikz}
+
+\tikzset{unsorted/.style={fill=red!40}}
+\tikzset{sorted/.style={fill=green!40}}
+
+% Top
+\draw  (5,20) rectangle  node[unsorted] {$39$} (6,19);
+\draw  (6,20) rectangle  node[unsorted] {$27$} (7,19);
+\draw  (7,20) rectangle  node[unsorted] {$43$} (8,19);
+\draw  (8,20) rectangle  node[unsorted] {$3$} (9,19);
+\draw  (9,20) rectangle  node[unsorted] {$9$} (10,19);
+\draw  (10,20) rectangle  node[unsorted] {$82$} (11,19);
+\draw  (11,20) rectangle  node[unsorted] {$10$} (12,19);
+
+% Arrows
+\draw [->, >=Stealth] (7,19) -- (5,18);
+\draw [->, >=Stealth] (10.5,19) -- (12.5,18);
+
+% Layer 2
+\draw  (3,18) rectangle  node[unsorted] {$39$} (4,17);
+\draw  (4,18) rectangle  node[unsorted] {$27$} (5,17);
+\draw  (5,18) rectangle  node[unsorted] {$43$} (6,17);
+\draw  (6,18) rectangle  node[unsorted] {$3$} (7,17);
+
+\draw  (11,18) rectangle  node[unsorted] {$9$} (12,17);
+\draw  (12,18) rectangle  node[unsorted] {$82$} (13,17);
+\draw  (13,18) rectangle  node[unsorted] {$10$} (14,17);
+
+% Arrows 2
+\draw [->, >=Stealth] (4,17) -- (3,16);
+\draw [->, >=Stealth] (6,17) -- (7,16);
+\draw [->, >=Stealth] (12,17) -- (11,16);
+\draw [->, >=Stealth] (13.5,17) -- (14.5,16);
+
+% Layer 3
+\draw  (2,16) rectangle  node[unsorted] {$39$} (3,15);
+\draw  (3,16) rectangle  node[unsorted] {$27$} (4,15);
+\draw  (6,16) rectangle  node[unsorted] {$43$} (7,15);
+\draw  (7,16) rectangle  node[unsorted] {$3$} (8,15);
+
+\draw  (10,16) rectangle  node[unsorted] {$9$} (11,15);
+\draw  (11,16) rectangle  node[unsorted] {$82$} (12,15);
+\draw  (14,16) rectangle  node[unsorted] {$10$} (15,15);
+
+% Arrows 3
+\draw [->, >=Stealth] (2.5,15) -- (2,14);
+\draw [->, >=Stealth] (3.5,15) -- (4,14);
+\draw [->, >=Stealth] (6.5,15) -- (6,14);
+\draw [->, >=Stealth] (7.5,15) -- (8,14);
+
+\draw [->, >=Stealth] (10.5,15) -- (10,14);
+\draw [->, >=Stealth] (11.5,15) -- (12,14);
+\draw [->, >=Stealth] (6.5,15) -- (6,14);
+\draw [->, >=Stealth] (14.5,15) -- (14.5,14);
+
+% Layer 4
+\draw  (1.5,14) rectangle  node[unsorted] {$39$} (2.5,13);
+\draw  (3.5,14) rectangle  node[unsorted] {$27$} (4.5,13);
+\draw  (5.5,14) rectangle  node[unsorted] {$43$} (6.5,13);
+\draw  (7.5,14) rectangle  node[unsorted] {$3$} (8.5,13);
+
+\draw  (9.5,14) rectangle  node[unsorted] {$9$} (10.5,13);
+\draw  (11.5,14) rectangle  node[unsorted] {$82$} (12.5,13);
+\draw  (14,14) rectangle  node[unsorted] {$10$} (15,13);
+
+% Arrows 4 
+\draw [->, >=Stealth] (2,13) -- (2.5,12);
+\draw [->, >=Stealth] (4,13) -- (3.5,12);
+\draw [->, >=Stealth] (6,13) -- (6.5,12);
+\draw [->, >=Stealth] (8,13) -- (7.5,12);
+
+\draw [->, >=Stealth] (10,13) -- (10.5,12);
+\draw [->, >=Stealth] (12,13) -- (11.5,12);
+\draw [->, >=Stealth] (14.5,13) -- (14.5,12);
+
+% Layer 5
+\draw  (2,12) rectangle  node[sorted] {$27$} (3,11);
+\draw  (3,12) rectangle  node[sorted] {$39$} (4,11);
+\draw  (6,12) rectangle  node[sorted] {$3$} (7,11);
+\draw  (7,12) rectangle  node[sorted] {$43$} (8,11);
+
+\draw  (10,12) rectangle  node[sorted] {$9$} (11,11);
+\draw  (11,12) rectangle  node[sorted] {$82$} (12,11);
+\draw  (14,12) rectangle  node[sorted] {$10$} (15,11);
+
+% Arrows 5 
+\draw [->, >=Stealth] (3,11) -- (4,10);
+\draw [->, >=Stealth] (7,11) -- (6,10);
+\draw [->, >=Stealth] (11,11) -- (12,10);
+\draw [->, >=Stealth] (14.5,11) -- (13.5,10);
+
+% Layer 6
+\draw  (3,10) rectangle  node[sorted] {$3$} (4,9);
+\draw  (4,10) rectangle  node[sorted] {$27$} (5,9);
+\draw  (5,10) rectangle  node[sorted] {$39$} (6,9);
+\draw  (6,10) rectangle  node[sorted] {$43$} (7,9);
+
+\draw  (11,10) rectangle  node[sorted] {$9$} (12,9);
+\draw  (12,10) rectangle  node[sorted] {$10$} (13,9);
+\draw  (13,10) rectangle  node[sorted] {$82$} (14,9);
+
+% Arrows 6
+\draw [->, >=Stealth] (5,9) -- (7,8);
+\draw [->, >=Stealth] (12.5,9) -- (10.5,8);
+
+% Layer 7
+\draw  (5,8) rectangle  node[sorted] {$3$} (6,7);
+\draw  (6,8) rectangle  node[sorted] {$9$} (7,7);
+\draw  (7,8) rectangle  node[sorted] {$10$} (8,7);
+\draw  (8,8) rectangle  node[sorted] {$27$} (9,7);
+\draw  (9,8) rectangle  node[sorted] {$39$} (10,7);
+\draw  (10,8) rectangle  node[sorted] {$43$} (11,7);
+\draw  (11,8) rectangle  node[sorted] {$82$} (12,7);
+\end{circuitikz}
+}%
+\end{figure}
+
+\end{document}
+% -----------------------------------------------------------
