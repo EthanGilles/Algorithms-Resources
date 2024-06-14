@@ -1,0 +1,663 @@
+% +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+% University of Southern Maine
+% Department of Computer Science
+% Discrete Mathematics II (COS 280)
+% James Quinlan (https://cs.usm.maine.edu/~james.quinlan/)
+% Homework Template
+% +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+% EDIT Lines: 11, 12, 13
+\def\filename{Divide and Conquer}   		   % included file (edit file)
+\def\chapsec{Chapter 2}  % Chapter/Section/Topic
+\def\yourname{Divide and Conquer}	   % Your name
+\def\course{COS 485}		   % Course (if different)
+
+% ---------------- Do NOT Edit Below ------------------------
+% -----------------------------------------------------------
+\documentclass[11pt]{article}
+
+\def\pf{\textit{Proof}: }
+
+\usepackage{mathtools}
+\usepackage{epsfig}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{amscd}
+\usepackage{amsmath}
+\usepackage{xspace}
+\usepackage{theorem}
+\usepackage{float}
+\usepackage[table]{xcolor}
+\usepackage{color}
+\usepackage{soul}
+\usepackage{booktabs}
+\usepackage{outlines}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{pgf-pie}
+\usepackage{fancybox}
+\usepackage{circuitikz}
+\setenumerate[1]{label=\arabic*.}
+\setenumerate[2]{label=(\alph*).}
+\setenumerate[3]{label=\roman*.}
+\setenumerate[4]{label=\alph*.}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={\filename},
+    pdfpagemode=FullScreen,
+    }
+
+% TikZ
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+
+% Colors
+\definecolor{stainlessSteel}{cmyk}{0,0,0.02,0.12}
+
+% Document Geometry
+\makeatletter
+ \setlength{\textwidth}{6.75in}
+ \setlength{\oddsidemargin}{0in}
+ \setlength{\evensidemargin}{0in}
+ \setlength{\topmargin}{0.0125in}
+ \setlength{\textheight}{9.0in}
+ \setlength{\headheight}{0pt}
+ \setlength{\headsep}{0pt}
+ \setlength{\marginparwidth}{59pt}
+
+ \setlength{\parindent}{0pt}
+ \setlength{\parskip}{5pt plus 1pt}
+ \setlength{\theorempreskipamount}{5pt plus 1pt}
+ \setlength{\theorempostskipamount}{0pt}
+ \setlength{\abovedisplayskip}{8pt plus 3pt minus 6pt}
+ \setlength{\intextsep}{15pt plus 3pt minus 6pt}
+
+ % Headings
+ \renewcommand{\section}{\@startsection{section}{1}{0mm}%
+    {2ex plus -1ex minus -.2ex}%
+    {1.3ex plus .2ex}%
+    {\normalfont\Large\bfseries}}%
+ \renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+    {1ex plus -1ex minus -.2ex}%
+    {1ex plus .2ex}%
+    {\normalfont\large\bfseries}}%
+ \renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+    {1ex plus -1ex minus -.2ex}%
+    {1ex plus .2ex}%
+    {\normalfont\normalsize\bfseries}}
+ \renewcommand\paragraph{\@startsection{paragraph}{4}{0mm}%
+    {1ex \@plus1ex \@minus.2ex}%
+    {-1em}%
+    {\normalfont\normalsize\bfseries}}
+ \renewcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
+    {2.0ex \@plus1ex \@minus .2ex}%
+    {-1em}%
+    {\normalfont\normalsize\bfseries}}
+\makeatother
+
+\newcounter{thelecture}
+
+\newenvironment{proof}{{\bf Proof:  }}{\hfill\rule{2mm}{2mm}}
+\newenvironment{proofof}[1]{{\bf Proof of #1:  }}{\hfill\rule{2mm}{2mm}}
+\newenvironment{proofofnobox}[1]{{\bf#1:  }}{}
+\newenvironment{example}{{\bf Example: }}{\hfill\rule{0mm}{0mm}} % change 2mm 2mm for square
+
+%\renewcommand{\theequation}{\thesection.\arabic{equation}}
+%\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+
+\newtheorem{fact}{Fact}
+\newtheorem{lemma}[fact]{Lemma}
+\newtheorem{theorem}[fact]{Theorem}
+\newtheorem{definition}[fact]{Definition}
+\newtheorem{corollary}[fact]{Corollary}
+\newtheorem{proposition}[fact]{Proposition}
+\newtheorem{claim}[fact]{Claim}
+\newtheorem{exercise}[fact]{Exercise}
+
+% math notation
+\newcommand{\R}{\ensuremath{\mathbb R}}
+\newcommand{\Z}{\ensuremath{\mathbb Z}}
+\newcommand{\N}{\ensuremath{\mathbb N}}
+\newcommand{\B}{\ensuremath{\mathbb B}}
+\newcommand{\F}{\ensuremath{\mathcal F}}
+\newcommand{\SymGrp}{\ensuremath{\mathfrak S}}
+\newcommand{\prob}[1]{\ensuremath{\text{{\bf Pr}$\left[#1\right]$}}}
+\newcommand{\expct}[1]{\ensuremath{\text{{\bf E}$\left[#1\right]$}}}
+\newcommand{\size}[1]{\ensuremath{\left|#1\right|}}
+\newcommand{\ceil}[1]{\ensuremath{\left\lceil#1\right\rceil}}
+\newcommand{\floor}[1]{\ensuremath{\left\lfloor#1\right\rfloor}}
+\newcommand{\ang}[1]{\ensuremath{\langle{#1}\rangle}}
+\newcommand{\poly}{\operatorname{poly}}
+\newcommand{\polylog}{\operatorname{polylog}}
+
+% Anupam's abbreviations
+\newcommand{\e}{\epsilon}
+\newcommand{\half}{\ensuremath{\frac{1}{2}}}
+\newcommand{\junk}[1]{}
+\newcommand{\sse}{\subseteq}
+\newcommand{\union}{\cup}
+\newcommand{\meet}{\wedge}
+\newcommand{\dist}[1]{\|{#1}\|_{\text{dist}}}
+\newcommand{\hooklongrightarrow}{\lhook\joinrel\longrightarrow}
+\newcommand{\embeds}[1]{\;\lhook\joinrel\xrightarrow{#1}\;}
+\newcommand{\mnote}[1]{\normalmarginpar \marginpar{\tiny #1}}
+
+
+
+% -----------------------------------------------------------
+% Header
+\newcommand{\hwheadings}[3]{
+{\chapsec } \hfill {{ \yourname }} \hfill {{ \course #1}}\\
+{{\bf } #2} \hfill { #3} 
+\rule[0.051in]{\textwidth}{0.0025in}
+%\thispagestyle{empty}
+}
+
+% Document begins here 
+\begin{document}
+\hwheadings{}{}{}
+\section*{Overview}
+
+\begin{outline}[enumerate]
+  \1 Background
+  \1 General Algorithm
+  \1 Examples 
+\end{outline}
+
+\section*{Background}%
+\label{sec:background}
+
+Divide and Conquer is an approach to designing algorithms. It's a \textit{top-down} approach. This means
+a large problem is repeatedly split into smaller, more manageable problems. It often uses recursion to split the problems.
+
+\textbf{Examples}:
+\begin{itemize}
+  \item Binary Search
+  \item Merge Sort
+  \item Quick sort
+  \item Strassen's Algorithm
+  \item Karatsuba's Algorithm
+\end{itemize}
+
+Many algorithms divide the input into smaller parts, repeatedly, until the solution of the smaller problems can be found easily.
+To analyze recrusive divide and conquer algorithms we need a mathematical tool, recurrence relations. 
+These relations can be used to characterize run-times.
+
+\section*{General Algorithm}%
+\label{sec:algorithm}
+
+Divide and Conquer algorithms are generally recursive. The recursion `bottoms out' when reaching a base case.
+A General Divide and Conquer algorithm has three steps.
+
+\begin{outline}[enumerate]
+  \1 \underline{Divide} the problem into subproblems
+  \1 \underline{Conquer} subproblems by solving them recursively
+  \1 \underline{Combine} the solutions from the subproblem(s).
+\end{outline}
+
+If $f(n)$ is the number of operations required to solve an intial problem, then a Divide and Conquer Recurrence Relation will look like
+\begin{align*}
+  &f(n) = \underbrace{a}_{\mathclap{\textrm{subproblems}}} f\overbrace{\left(\frac{n}{b}\right)}^{\textrm{size}} + \; g(n) & \textrm{where } n = b^k
+\end{align*}
+
+With problem size $n$ split into  $a$ subproblems of size $n/b$ every time the problem is divided. 
+$b$ is referred to as the \textit{branching factor}. A Binary tree would have a branching factor of 2 because 
+every parent node splits into two child nodes. For simplicity, suppose $b \; | \; n$.
+
+
+\begin{figure}[!ht]
+\label{fig:dnc}
+\centering
+\resizebox{18cm}{!}{%
+\begin{circuitikz}
+
+% Top
+\draw [dashed] (1,15.25) -- (24.5,15.25);
+\node [font=\LARGE] at (1.75,15.75) {Level};
+\node [font=\LARGE] at (10,15.75) {Size of Problem};
+\node [font=\LARGE] at (19,15.75) {Subproblems};
+\node [font=\LARGE] at (22.75,15.75) {Work};
+
+% Levels
+\draw [dashed] (2.75,16.25) -- (2.75,4.75);
+\node [font=\LARGE] at (1.75,14.25) {$0$};
+\node [font=\LARGE] at (1.75,12.25) {$1$};
+\node [font=\LARGE] at (1.75,10.25) {$i$};
+\node [font=\LARGE, rotate around={90:(0,0)}] at (1.75,8.75) {$...$};
+\node [font=\LARGE] at (1.75,6.5) {$k$};
+
+% Size
+\draw [dashed] (17,16.25) -- (17,4.75);
+\draw  (9.5,15) rectangle  node {\LARGE $n$} (10.5,14);
+\draw [->, >=Stealth] (9.5,14) -- (7,13);
+\draw [->, >=Stealth] (10.5,14) -- (13,13);
+
+\draw  (6,13) rectangle  node {\LARGE $\frac{n}{b}$} (7,12);
+\draw  (13,13) rectangle  node {\LARGE $\frac{n}{b}$} (14,12);
+\draw [->, >=Stealth, dashed] (6,12) -- (5.25,10.5);
+\draw [->, >=Stealth, dashed] (7,12) -- (7.75,10.5);
+\draw [->, >=Stealth, dashed] (13,12) -- (12.25,10.5);
+\draw [->, >=Stealth, dashed] (14,12) -- (14.75,10.5);
+
+\draw  (4.25,10.5) rectangle  node {\huge $\frac{n}{b^i}$} (5.25,9.5);
+\draw  (7.75,10.5) rectangle  node {\huge $\frac{n}{b^i}$} (8.75,9.5);
+\draw  (14.75,10.5) rectangle  node {\huge $\frac{n}{b^i}$} (15.75,9.5);
+\draw  (11.25,10.5) rectangle  node {\huge $\frac{n}{b^i}$} (12.25,9.5);
+
+\node [font=\LARGE, rotate around={90:(0,0)}] at (4.75,8.75) {$...$};
+\node [font=\LARGE, rotate around={90:(0,0)}] at (8.25,8.75) {$...$};
+\node [font=\LARGE, rotate around={90:(0,0)}] at (11.75,8.75) {$...$};
+\node [font=\LARGE, rotate around={90:(0,0)}] at (15.25,8.75) {$...$};
+\draw [->, >=Stealth, dashed] (4.75,8.25) -- (4.25,7);
+\draw [->, >=Stealth, dashed] (4.75,8.25) -- (5.25,7);
+\draw [->, >=Stealth, dashed] (8.25,8.25) -- (7.75,7);
+\draw [->, >=Stealth, dashed] (8.25,8.25) -- (8.75,7);
+\draw [->, >=Stealth, dashed] (11.75,8.25) -- (11.25,7);
+\draw [->, >=Stealth, dashed] (11.75,8.25) -- (12.25,7);
+\draw [->, >=Stealth, dashed] (15.25,8.25) -- (14.75,7);
+\draw [->, >=Stealth, dashed] (15.25,8.25) -- (15.75,7);
+
+\draw  (3.25,7) rectangle  node {\large $1$} (4.25,6);
+\draw  (5.25,7) rectangle  node {\large $1$} (6.25,6);
+\draw  (6.75,7) rectangle  node {\large $1$} (7.75,6);
+\draw  (8.75,7) rectangle  node {\large $1$} (9.75,6);
+\draw  (10.25,7) rectangle  node {\large $1$} (11.25,6);
+\draw  (12.25,7) rectangle  node {\large $1$} (13.25,6);
+\draw  (13.75,7) rectangle  node {\large $1$} (14.75,6);
+\draw  (15.75,7) rectangle  node {\large $1$} (16.75,6);
+
+% Subproblems
+\draw [dashed] (21,16.25) -- (21,4.75);
+\node [font=\LARGE] at (19,14.5) {$a^0$};
+\node [font=\LARGE] at (19,12.5) {$a^1$};
+\node [font=\LARGE] at (19,10) {$a^i$};
+\node [font=\LARGE] at (19,6.75) {$a^k$};
+
+% Work
+\node [font=\huge] at (22,14.5) {$f(n)$};
+\node [font=\huge] at (23.5,12.5) {$a f\left(\frac{n}{b}\right) + g(n)$};
+\node [font=\huge] at (26.75,10) {$a^{i-1} [a f\left(\frac{n}{b^i}\right) + g(n)] + \sum_{j=0}^{i-1} a^j g\left(\frac{n}{b^j}\right)$};
+\node [font=\huge] at (25,6.75) {$a^k f(1) + \sum_{j=0}^{k-1} a^j g\left(\frac{n}{b^j}\right)$};
+
+\end{circuitikz}
+}%
+\end{figure}
+
+\textit{Theorem}: Suppose $f \nearrow$ (\textit{is strictly increasing}), $b \; | \; n$, $a \ge 1$, $b \ge 1$, $c \in \R^+$ :
+\begin{align*}
+  f(n) &= af\left(\frac{n}{b}\right) + g(n) & \textrm{then, } \\ 
+  f(n) &\in \begin{cases}
+    O(n^{\log_{b}a}) & \textrm{if } a > 1 \\ 
+    O(\log_{b} n) & \textrm{if } a = 1
+  \end{cases} & \underset{\textrm{Rule}}{n^{\log_{b}a} = a^{\log_{b}n}}
+\end{align*}
+
+\textit{Proof}:
+\begin{align*}
+  f(n) &= a f\left(\frac{n}{b}\right) + g(n) & \textrm{where } n = b^k \\ 
+       &= a \; [a f\left(\frac{n}{b^2}\right) + g\left(\frac{n}{b}\right)] + g(n) \\
+       &= a^2 f\left(\frac{n}{b^2}\right) + ag\left(\frac{n}{b}\right) + g(n) \\
+       &= a^2 \; [a f\left(\frac{n}{b^3}\right) + g\left(\frac{n}{b^2}\right)] + ag\left(\frac{n}{b}\right) + g(n) \\
+       &= a^3 f\left(\frac{n}{b^3}\right) + a^2g\left(\frac{n}{b^2}\right) + ag\left(\frac{n}{b}\right) + g(n) \\
+       &\shortvdotswithin{=}
+       &= a^k f\left(\frac{n}{b^k}\right) + a^{k-1}g\left(\frac{n}{b^{k-1}}\right) + a^{k-2}g\left(\frac{n}{b^{k-2}}\right) + \cdots + a^0g\left(\frac{n}{b^0}\right) \\ 
+  n = b^k &\implies f\left(\frac{n}{b^k}\right) = f(1) \\
+  \therefore    &= a^kf(1) + \sum_{j=0}^{k-1} a^j g\left(\frac{n}{b^j}\right)
+\end{align*}
+We have four cases because $a \ge 1$
+\begin{align*}
+  & \textrm{\underline{Case 1}:  } a = 1 \And n = b^k & \textrm{\underline{Case 2}:  }  a = 1 \And n \ne b^k \\
+  & \textrm{\underline{Case 3}:  } a > 1 \And n = b^k & \textrm{\underline{Case 4}:  }  a > 1 \And n \ne b^k \\
+\end{align*}
+\underline{Case 1}: $a = 1 \And n = b^k \implies k = \log_{b} n$, 
+\begin{align*}
+  f(n) &= f(1) + c \, k  \\
+       &= f(1) + c\log_{b} n & \textrm{since } b^k = n\\ 
+  \therefore f(n)&\in O(\log_{b} n)
+\end{align*}
+
+\underline{Case 2}: $a = 1 \And n \ne b^k \implies b^k < n < b^{k+1} \implies f(b^k) < f(n) \le f(b^{k+1})$, since $f \nearrow$
+\begin{align*}
+  f(b^{k+1}) &= f(1) + c \, (k+1) & \ge f(n) \\ 
+          &= (f(1)+c) + ck  \\
+          &\le (f(1)+c) + c \log_{b} n & \textrm{since } b^k < n \\ 
+  \therefore f(n) &\in O(\log_{b}n)
+\end{align*}
+
+\underline{Case 3}: $a > 1 \And n = b^k \implies k = \log_{b} n$,
+\begin{align*}
+  f(n) &= a^k f(1) + c \sum_{j=0}^{k-1} a^j \\ 
+       &= a^k f(1) + c \, \frac{a^k-1}{a-1} \\ 
+       &= a^k f(1) + \frac{c \, a^k}{a - 1} - \frac{c}{a-1} \\ 
+       &= a^k\left[f(1) + \frac{c}{a - 1}\right] - \frac{c}{a-1} 
+\end{align*}
+\textbf{Note} $a^k = a^{\log_{b} n} = n^{\log_{b} a}$. The continued equation gives
+\[
+  f(n) = C_{1} n^{log_{b} a} + C_{2}
+\] 
+Where $C_{1} = f(1) + \frac{c}{a-1}$ and $C_{2} = -\frac{c}{a-1} \implies f(n) \in O(n^{\log_{b}a})$ \\
+
+\underline{Case 4}: $a > 1 \And n \ne b^k \implies b^k < n < b^{k+1} \implies f(b^k) < f(n) \le f(b^{k+1})$, since $f \nearrow$
+
+We can reduce this equation to the same one seen above, where 
+\[
+  f(n) = C_{1} n^{\log_{b} a} + C_{2}
+\]
+Since $f(n) \le f(b^{k+1})$
+\begin{align*}
+  f(b^{k+1}) &= C_{1} a^{k+1} + C_{2} \\ 
+          &= (C_{1} a) n^{log_{b} a} + C_{2} \\
+  f(n)    &\le (C_{1} a) n^{\log_{b} a} + C_{2} \\ 
+  \therefore f(n) &\in O(n^{\log_{b} a})
+\end{align*}
+
+\[
+\therefore f(n) \in \begin{cases}
+    O(n^{\log_{b}a}) & \textrm{if } a > 1 \\ 
+    O(\log_{b} n) & \textrm{if } a = 1
+  \end{cases}
+\]
+
+Recall that $a =$ number of subproblems and $b = $ \textit{branching factor}. Therefore, if there is only one 
+subproblem in an algorithm, like in Binary Search, then it will be in $O(\log_{b} n)$ where $b$ is the amount of branches in the recursion tree.
+If there is more than one subproblem, like in Merge Sort, then it will be in $O(n^{\log_{b}n})$.
+
+\section*{Examples}%
+\label{sec:examples}
+
+\subsection*{Binary Search}%
+\label{sub:Binary Search}
+
+\textbf{Problem}: Find the index of a element in a sorted list.
+
+\begin{figure}[!htbp]
+\label{fig:array}
+\centering
+\resizebox{10cm}{!}{%
+\begin{circuitikz}
+
+% Array
+\draw  (5,20) rectangle  node {$2$} (6,19);
+\draw  (6,20) rectangle  node {$5$} (7,19);
+\draw  (7,20) rectangle  node {$7$} (8,19);
+\draw  (8,20) rectangle  node {$8$} (9,19);
+\draw  (9,20) rectangle  node {$9$} (10,19);
+\draw  (10,20) rectangle  node {$12$} (11,19);
+\draw  (11,20) rectangle  node {$15$} (12,19);
+\end{circuitikz}
+}%
+\end{figure}
+
+The Binary Search algorithm is used to find items in a \textit{sorted} list in logarithmic time.
+Instead of using the `brute-force' method for searching, which is just a linear search, it is possible to 
+find items faster by arranging them in a tree structure.
+
+\begin{figure}[!htbp]
+\label{fig:tree}
+\centering
+\resizebox{5cm}{!}{%
+\begin{tikzpicture}[level distance=1.5cm,
+  level 1/.style={sibling distance=3cm},
+  level 2/.style={sibling distance=1.5cm},
+  level 3/.style={sibling distance=1cm}]
+  \node {8}
+    child {node {5}
+      child {node {2}}
+      child {node {7}}
+    }
+    child {node {12}
+      child {node {9}}
+      child {node {15}
+      }
+    };
+\end{tikzpicture}
+}%
+\end{figure}
+
+With this method, half of the remaining list is eliminated with each level of the tree traveresed. This results
+in finding the element in $O(\log_{2} n)$ time. For a list this size, $n = 7$, so the maximum operations to find an 
+element would be $\ceil{\log_{2} 7} = 3$, which can be confirmed by analyzing the tree above.
+
+The algorithm for Binary Search is as follows.
+
+\begin{algorithm}
+  \caption{Binary Search}\label{alg:binary-search}
+  \begin{algorithmic}
+  \State \textbf{Inputs}:
+  \State $A \gets $ [] \Comment{Array with values to search through; \textbf{Sorted}}
+  \State $x \gets $ value to search for
+  \State \textbf{Function} binSearch(A, x) = y $\rightarrow$ index of $x$
+  \State $n \gets len(A)$
+  \If{$x == A\left(\floor{\frac{n+1}{2}}\right)$}
+    \State \textbf{return} $A\left(\floor{\frac{n+1}{2}}\right)$
+  \ElsIf{$x < A\left(\floor{\frac{n+1}{2}}\right)$}
+    \State \textbf{return} binSearch(A[1:mid-1],x)
+  \ElsIf{$x > A\left(\floor{\frac{n+1}{2}}\right) $}
+    \State \textbf{return} binSearch(A[mid+1:n],x)
+  \Else
+    \State \textbf{return} -1 \Comment{If value is not found}
+  \EndIf
+  \end{algorithmic}
+\end{algorithm}
+
+\textbf{Every-Case Time Analysis}
+
+The Binary Search Algorithm produces the following recurrence relation. We can assume $b \; | \; n$
+\[
+T(n) = 1 \,T\left(\frac{n}{2}\right) + O(1)
+.\] 
+Then expand the relation using substitution.
+\begin{align*}
+  T(n) &= T\left(\frac{n}{2}\right)+ O(1) \\ 
+  T\left(\frac{n}{2}\right) &= T\left(\frac{n}{4}\right) + O(1) \\
+  T\left(\frac{n}{4}\right) &= T\left(\frac{n}{8}\right) + O(1) \\
+  T\left(\frac{n}{8}\right) &= T\left(\frac{n}{16}\right) + O(1) \\
+  &\shortvdotswithin{=}
+  T\left(\frac{n}{2^k}\right) &= T(1) + O(1) \implies k = \lg n\\
+  \therefore T(n) &= T\left(\frac{n}{4}\right)+ O(1) + O(1)\\ 
+         &= T\left(\frac{n}{8}\right)+ O(1) + O(1) + O(1)\\ 
+  &\shortvdotswithin{=}
+         &= T(1) + \sum_{k=1}^{\lg n} O(1) \\
+         &= T(1) + \lg n \cdot O(1) \\
+  T(n) &\in O(\lg n)
+\end{align*}
+
+It is also possible to analyze the recurrence relation through the theorem shown above, where
+\[
+f(n) \in \begin{cases}
+  O(n^{\log_{b}a}) & \textrm{if } a > 1 \\ 
+  O(\log_{b} n) & \textrm{if } a = 1
+\end{cases} 
+\] 
+
+The relation generated by the Divide and Conquer algorithm has $a = 1$. \\
+Using the theorem, $f(n) \in O(\lg n)$
+
+\subsection*{Merge Sort}%
+\label{sub:merge}
+
+\textbf{Problem}: Sort an unsorted list in ascending order.
+
+\begin{algorithm}
+  \caption{Merge Sort}\label{alg:merge-sort}
+  \begin{algorithmic}
+  \State \textbf{Inputs}:
+  \State $A \gets $ [] \Comment{Array with values to sort}
+  \State low $\gets$ 0
+  \State high $\gets len(A)$
+  \State \textbf{Function} mergeSort(low, high, A) = B $\rightarrow$ sorted list
+  \If{low $<$ high}
+  \State mid $\gets \floor{(low+high)/2}$;
+  \State mergeSort(low, mid);
+  \State mergeSort(mid+1, high);
+  \State merge(low, mid, high);
+  \EndIf
+  \end{algorithmic}
+\end{algorithm}
+
+Merge sort solves the problem by splitting the list into smaller lists until they are sorted. 
+Then, the small, sorted lists are merged back together to make one sorted list. Every time the list 
+is split, it is split in half. This means the branching factor is 2. Since we still need to deal with both 
+halves of the list, there are also two sub-problems. This means $a = 2$ and  $b = 2$. 
+
+
+\begin{figure}
+\label{fig:merge-sort}
+\centering
+\resizebox{8cm}{!}{%
+\begin{circuitikz}
+
+\tikzset{unsorted/.style={fill=red!40}}
+\tikzset{sorted/.style={fill=green!40}}
+
+% Top
+\draw  (5,20) rectangle  node[unsorted] {$39$} (6,19);
+\draw  (6,20) rectangle  node[unsorted] {$27$} (7,19);
+\draw  (7,20) rectangle  node[unsorted] {$43$} (8,19);
+\draw  (8,20) rectangle  node[unsorted] {$3$} (9,19);
+\draw  (9,20) rectangle  node[unsorted] {$9$} (10,19);
+\draw  (10,20) rectangle  node[unsorted] {$82$} (11,19);
+\draw  (11,20) rectangle  node[unsorted] {$10$} (12,19);
+
+% Arrows
+\draw [->, >=Stealth] (7,19) -- (5,18);
+\draw [->, >=Stealth] (10.5,19) -- (12.5,18);
+
+% Layer 2
+\draw  (3,18) rectangle  node[unsorted] {$39$} (4,17);
+\draw  (4,18) rectangle  node[unsorted] {$27$} (5,17);
+\draw  (5,18) rectangle  node[unsorted] {$43$} (6,17);
+\draw  (6,18) rectangle  node[unsorted] {$3$} (7,17);
+
+\draw  (11,18) rectangle  node[unsorted] {$9$} (12,17);
+\draw  (12,18) rectangle  node[unsorted] {$82$} (13,17);
+\draw  (13,18) rectangle  node[unsorted] {$10$} (14,17);
+
+% Arrows 2
+\draw [->, >=Stealth] (4,17) -- (3,16);
+\draw [->, >=Stealth] (6,17) -- (7,16);
+\draw [->, >=Stealth] (12,17) -- (11,16);
+\draw [->, >=Stealth] (13.5,17) -- (14.5,16);
+
+% Layer 3
+\draw  (2,16) rectangle  node[unsorted] {$39$} (3,15);
+\draw  (3,16) rectangle  node[unsorted] {$27$} (4,15);
+\draw  (6,16) rectangle  node[unsorted] {$43$} (7,15);
+\draw  (7,16) rectangle  node[unsorted] {$3$} (8,15);
+
+\draw  (10,16) rectangle  node[unsorted] {$9$} (11,15);
+\draw  (11,16) rectangle  node[unsorted] {$82$} (12,15);
+\draw  (14,16) rectangle  node[unsorted] {$10$} (15,15);
+
+% Arrows 3
+\draw [->, >=Stealth] (2.5,15) -- (2,14);
+\draw [->, >=Stealth] (3.5,15) -- (4,14);
+\draw [->, >=Stealth] (6.5,15) -- (6,14);
+\draw [->, >=Stealth] (7.5,15) -- (8,14);
+
+\draw [->, >=Stealth] (10.5,15) -- (10,14);
+\draw [->, >=Stealth] (11.5,15) -- (12,14);
+\draw [->, >=Stealth] (6.5,15) -- (6,14);
+\draw [->, >=Stealth] (14.5,15) -- (14.5,14);
+
+% Layer 4
+\draw  (1.5,14) rectangle  node[unsorted] {$39$} (2.5,13);
+\draw  (3.5,14) rectangle  node[unsorted] {$27$} (4.5,13);
+\draw  (5.5,14) rectangle  node[unsorted] {$43$} (6.5,13);
+\draw  (7.5,14) rectangle  node[unsorted] {$3$} (8.5,13);
+
+\draw  (9.5,14) rectangle  node[unsorted] {$9$} (10.5,13);
+\draw  (11.5,14) rectangle  node[unsorted] {$82$} (12.5,13);
+\draw  (14,14) rectangle  node[unsorted] {$10$} (15,13);
+
+% Arrows 4 
+\draw [->, >=Stealth] (2,13) -- (2.5,12);
+\draw [->, >=Stealth] (4,13) -- (3.5,12);
+\draw [->, >=Stealth] (6,13) -- (6.5,12);
+\draw [->, >=Stealth] (8,13) -- (7.5,12);
+
+\draw [->, >=Stealth] (10,13) -- (10.5,12);
+\draw [->, >=Stealth] (12,13) -- (11.5,12);
+\draw [->, >=Stealth] (14.5,13) -- (14.5,12);
+
+% Layer 5
+\draw  (2,12) rectangle  node[sorted] {$27$} (3,11);
+\draw  (3,12) rectangle  node[sorted] {$39$} (4,11);
+\draw  (6,12) rectangle  node[sorted] {$3$} (7,11);
+\draw  (7,12) rectangle  node[sorted] {$43$} (8,11);
+
+\draw  (10,12) rectangle  node[sorted] {$9$} (11,11);
+\draw  (11,12) rectangle  node[sorted] {$82$} (12,11);
+\draw  (14,12) rectangle  node[sorted] {$10$} (15,11);
+
+% Arrows 5 
+\draw [->, >=Stealth] (3,11) -- (4,10);
+\draw [->, >=Stealth] (7,11) -- (6,10);
+\draw [->, >=Stealth] (11,11) -- (12,10);
+\draw [->, >=Stealth] (14.5,11) -- (13.5,10);
+
+% Layer 6
+\draw  (3,10) rectangle  node[sorted] {$3$} (4,9);
+\draw  (4,10) rectangle  node[sorted] {$27$} (5,9);
+\draw  (5,10) rectangle  node[sorted] {$39$} (6,9);
+\draw  (6,10) rectangle  node[sorted] {$43$} (7,9);
+
+\draw  (11,10) rectangle  node[sorted] {$9$} (12,9);
+\draw  (12,10) rectangle  node[sorted] {$10$} (13,9);
+\draw  (13,10) rectangle  node[sorted] {$82$} (14,9);
+
+% Arrows 6
+\draw [->, >=Stealth] (5,9) -- (7,8);
+\draw [->, >=Stealth] (12.5,9) -- (10.5,8);
+
+% Layer 7
+\draw  (5,8) rectangle  node[sorted] {$3$} (6,7);
+\draw  (6,8) rectangle  node[sorted] {$9$} (7,7);
+\draw  (7,8) rectangle  node[sorted] {$10$} (8,7);
+\draw  (8,8) rectangle  node[sorted] {$27$} (9,7);
+\draw  (9,8) rectangle  node[sorted] {$39$} (10,7);
+\draw  (10,8) rectangle  node[sorted] {$43$} (11,7);
+\draw  (11,8) rectangle  node[sorted] {$82$} (12,7);
+\end{circuitikz}
+}%
+\end{figure}
+
+
+Merging two lists takes $O(n)$ time as both lists are traversed linearly.
+This produces the following recurrence relation
+
+\[
+T(n) = 2 \,T\left(\frac{n}{2}\right) + O(n)
+\]
+
+\textbf{Every-Case Time Analysis}
+
+Using substitution it is possible to expand the equation to analyze the time complexity.
+
+\begin{align*}
+  T(n) &= 2 \, T\left(\frac{n}{2}\right) + O(n) \\ 
+       &= 2 \left[2 \, T\left(\frac{n}{4}\right) + O\left(\frac{n}{2}\right) \right] + O(n) \\ 
+       &= 4 \,T\left(\frac{n}{4}\right) + 2 \,O(n) \\ 
+       &= 2 \left[4 \, T\left(\frac{n}{8}\right) + O\left(\frac{n}{2}\right) \right] + 2 \,O(n) \\ 
+       &= 8 \,T\left(\frac{n}{8}\right) + 3 \,O(n) \\ 
+       &\shortvdotswithin{=}
+       &= 2^k \,T\left(\frac{n}{2^k}\right) + \sum_{i=1}^{k} O(n) \implies k = \lg n \\ 
+       &= \lg n \,T(1) + \sum_{i=1}^{\lg n} O(n) \\ 
+       &= \lg n \,T(1) + \lg n \, O(n) \\ 
+  T(n) &\in O(n \lg n)
+\end{align*}
+
+
+\end{document}
+% -----------------------------------------------------------
