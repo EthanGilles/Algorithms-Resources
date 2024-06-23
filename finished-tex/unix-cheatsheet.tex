@@ -1,0 +1,741 @@
+%\documentclass[10pt,a4paper]{article}
+\documentclass[landscape, 10pt,a4paper]{report}
+% Packages
+\usepackage{fancyhdr}           % For header and footer
+\usepackage{multicol}           % Allows multicols in tables
+\usepackage{tabularx}           % Intelligent column widths
+\usepackage{tabulary}           % Used in header and footer
+\usepackage{hhline}             % Border under tables
+\usepackage{graphicx}           % For images
+\usepackage{xcolor}             % For hex colours
+%\usepackage[utf8x]{inputenc}    % For unicode character support
+\usepackage[T1]{fontenc}        % Without this we get weird character replacements
+\usepackage{colortbl}           % For coloured tables
+\usepackage{setspace}           % For line height
+\usepackage{lastpage}           % Needed for total page number
+\usepackage{seqsplit}           % Splits long words.
+%\usepackage{opensans}          % Can't make this work so far. Shame. Would be lovely.
+\usepackage[normalem]{ulem}     % For underlining links
+% Most of the following are not required for the majority
+% of cheat sheets but are needed for some symbol support.
+\usepackage{amsmath}            % Symbols
+\usepackage{MnSymbol}           % Symbols
+\usepackage{wasysym}            % Symbols
+%\usepackage[english,german,french,spanish,italian]{babel}              % Languages
+
+\usepackage[margin=1.65in]{geometry}
+
+\usepackage{pdflscape}
+\usepackage{adjustbox}
+
+% Document Info
+\author{James Quinlan}
+\pdfinfo{
+  /Title (unix-cheatsheet.pdf)
+  /Creator (James Quinlan)
+  /Author (Ethan Gilles)
+  /Subject (Unix/Linux Cheatsheet)
+}
+
+% Lengths and widths
+\addtolength{\textwidth}{7cm}
+\addtolength{\textheight}{3cm}  % -1
+\addtolength{\hoffset}{-3.2cm}
+\addtolength{\voffset}{-3cm}
+\setlength{\tabcolsep}{0.3cm} % Space between columns og=0.2
+\setlength{\headsep}{-12pt} % Reduce space between header and content
+\setlength{\headheight}{85pt} % If less, LaTeX automatically increases it
+\renewcommand{\footrulewidth}{0pt} % Remove footer line
+\renewcommand{\headrulewidth}{0pt} % Remove header line
+\renewcommand{\seqinsert}{\ifmmode\allowbreak\else\-\fi} % Hyphens in seqsplit
+% This two commands together give roughly
+% the right line height in the tables
+\renewcommand{\arraystretch}{1.3}
+\onehalfspacing
+
+% Commands
+\newcommand{\SetRowColor}[1]{\noalign{\gdef\RowColorName{#1}}\rowcolor{\RowColorName}} % Shortcut for row colour
+\newcommand{\mymulticolumn}[3]{\multicolumn{#1}{>{\columncolor{\RowColorName}}#2}{#3}} % For coloured multi-cols
+\newcolumntype{x}[1]{>{\raggedright}p{#1}} % New column types for ragged-right paragraph columns
+\newcommand{\tn}{\tabularnewline} % Required as custom column type in use
+
+% Font and Colours
+\definecolor{LogoBack}{HTML}{ffffff}
+
+\definecolor{HeadBackground}{HTML}{336699}
+\definecolor{FootBackground}{HTML}{9fa1a4}
+\definecolor{TextColor}{HTML}{231f20}
+\definecolor{DarkBackground}{HTML}{163e70} % 1D41A3
+\definecolor{LightBackground}{HTML}{D8DEEF}
+\renewcommand{\familydefault}{\sfdefault}
+\color{TextColor}
+
+
+
+
+
+% Header and Footer
+\pagestyle{fancy}
+\fancyhead[L]{
+\noindent
+\begin{multicols}{3}
+\begin{tabulary}{5.8cm}{C}
+    \SetRowColor{LogoBack}
+    \vspace{-7pt}
+    {\parbox{\dimexpr\textwidth-2\fboxsep\relax}{\noindent
+        \hspace*{-6pt}\includegraphics[width=5.8cm]{logo.jpg}\\Department of Computer Sciences}
+    }
+\end{tabulary}
+\columnbreak
+\begin{tabulary}{11cm}{L}
+    \vspace{-2pt}\large{\bf{\textcolor{DarkBackground}{\textsf{Unix/Linux Commands}}}} \\
+    \normalsize{ \textcolor{DarkBackground}{Department of Computer Sciences}}
+\end{tabulary}
+\columnbreak
+\begin{tabulary}{11cm}{L}
+    \vspace{-2pt}\large{\bf{\textcolor{DarkBackground}{\textsf{Unix/Linux Commands}}}} \\
+    \normalsize{ \textcolor{DarkBackground}{Department of Computer Sciences}}
+\end{tabulary}
+\end{multicols}}
+
+
+
+
+
+\fancyfoot[L]{ \footnotesize
+\noindent
+\begin{multicols}{3}
+\begin{tabulary}{5.8cm}{LL}
+  \SetRowColor{FootBackground}
+  \mymulticolumn{2}{p{5.377cm}}{\bf\textcolor{white}{Programs}}  \\
+  \vspace{-2pt}BS Computer Science \\
+  MS Data Science\\
+  \end{tabulary}
+\vfill
+\columnbreak
+\begin{tabulary}{5.8cm}{L}
+  \SetRowColor{FootBackground}
+  \mymulticolumn{1}{p{5.377cm}}{\bf\textcolor{white}{Cheat Sheet}}  \\
+   \vspace{-2pt}Published ???, 2024.\\
+   Updated ???, 2024.\\
+\end{tabulary}
+\vfill
+\columnbreak
+\begin{tabulary}{5.8cm}{L}
+  \SetRowColor{FootBackground}
+  \mymulticolumn{1}{p{5.377cm}}{\bf\textcolor{white}{Contact}}  \\
+  \SetRowColor{white}
+  \vspace{-5pt}
+  Dr. James Quinlan\\
+  Chair, Dept. of Computer Science\\
+  (207) 780-4723\\
+  james.quinlan@maine.edu
+\end{tabulary}
+\end{multicols}}
+
+
+
+
+\begin{document}
+\raggedright
+\raggedcolumns
+% \begin{landscape}
+% Set font size to small. Switch to any value
+% from this page to resize cheat sheet text:
+% www.emerson.emory.edu/services/latex/latex_169.html
+\footnotesize % Small font.
+
+\begin{multicols*}{3}
+
+
+\begin{tabularx}{8.6cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.6cm}}{\bf\textcolor{white}{General Syntax}}  \tn
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Command [Options] [Arguments]}} } \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Command}:} — The actual command you want to execute} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Options}:} — Modifies the behavior of a command. Begins with a hyphen `-' or double hyphen `--'} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Arguments}:} — The objects that the command operates on. Can be file names, directories, or other data} \tn 
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+
+
+\par\addvspace{1.3em}
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Bash Scripting Basics}}  \tn
+% Row 0
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{\#!/bin/env bash}} — the 'shebang' used to tell the operating system the path it should use to interpret the file} \tn 
+% Row Count 3 (+ 3)
+% Row 1
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{bash {\emph{file}}.sh}} — run the bash script in terminal} \tn 
+% Row Count 5 (+ 2)
+% Row 2
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{./ {\emph{file}}.sh}} — run the bash script in terminal if set to executable} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{\$}} — prefix to all variables throughout the script} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{\#}} — used to make comments throughout script} \tn 
+% Row Count 12 (+ 1)
+% Row 6
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{||}} — logical OR} \tn 
+% Row Count 13 (+ 1)
+% Row 7
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{\&\&}} — logical AND} \tn 
+% Row Count 14 (+ 1)
+% Row 8
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{\$\#}} — number of arguments that were passed into the script} \tn 
+% Row Count 16 (+ 2)
+% Row 9
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{\$0}} — refer back to the script name} \tn 
+% Row Count 17 (+ 1)
+% Row 10
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{\$1, \$2, etc.}} — refer to user input (parameters) that user can add when running script, separated by a space} \tn 
+% Row Count 20 (+ 3)
+% Row 11
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{exit {[}0-255{]}}} — exit script and return number from 0 to 255. 0 means everything worked as intended, but other values can be used to denote errors that the script ran into} \tn 
+% Row Count 24 (+ 4)
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{File Management}}  \tn
+% Row 0
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{ls}} — list items in your current directory} \tn 
+% Row Count 1 (+ 1)
+% Row 1
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{ls -a}} — list all items and hidden files in your current directory} \tn 
+% Row Count 3 (+ 2)
+% Row 2
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{ls -l}} — list items, including their size and permissions, in your current directory} \tn 
+% Row Count 5 (+ 2)
+% Row 3
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{pwd}} — prints path of current working directory} \tn 
+% Row Count 7 (+ 2)
+% Row 4
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+\vfill
+\columnbreak
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{File Management (cont)}}  \tn
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{cd}} — change directory to home directory} \tn 
+% Row Count 8 (+ 1)
+% Row 5
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{cd {\emph{dir}}}} — change directory to {\emph{dir}}} \tn 
+% Row Count 9 (+ 1)
+% Row 6
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{cd ..}} — go up one directory} \tn 
+% Row Count 10 (+ 1)
+% Row 7
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{cp {\emph{file1}} {\emph{file2}}}} — copy {\emph{file1}} to {\emph{file2}}} \tn 
+% Row Count 11 (+ 1)
+% Row 8
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{cp -r {\emph{dir1}} {\emph{dir2}}}} — copy {\emph{dir1}} to {\emph{dir2}}, recursively} \tn 
+% Row Count 13 (+ 2)
+% Row 9
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{mv {\emph{file1}} {\emph{file2}}}} — move {\emph{file1}} to {\emph{file2}}, or just change file name} \tn 
+% Row Count 15 (+ 2)
+% Row 10
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{rm {\emph{file}}}} — remove {\emph{file}}} \tn 
+% Row Count 16 (+ 1)
+% Row 11
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{rm -r {\emph{dir}}}} — remove directory {\emph{dir}}, recursively} \tn 
+% Row Count 18 (+ 2)
+% Row 12
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{echo {\emph{text}}}} — outputs {\emph{text}} to standard output} \tn 
+% Row Count 20 (+ 2)
+% Row 13
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{touch {\emph{file}}}} — create {\emph{file}}, such as an empty txt or zip} \tn 
+% Row Count 24 (+ 2)
+% Row 15
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{cat {\emph{file}}}} — concatenate {\emph{file}} and print to standard output} \tn 
+% Row Count 26 (+ 2)
+% Row 16
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{head {\emph{file}}}} — output first 10 lines of {\emph{file}}} \tn 
+% Row Count 28 (+ 2)
+% Row 17
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{tail {\emph{file}}}} — output last 10 lines of {\emph{file}}} \tn 
+% Row Count 29 (+ 1)
+% Row 18
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{less {\emph{file}}}} — view {\emph{file}} instead of opening in an editor, allowing page navigation} \tn 
+% Row Count 31 (+ 2)
+% Row 19
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{sort {\emph{file}}}} — used to sort a file, arranging the records in a particular order} \tn 
+% Row Count 2 (+ 2)
+% Row 20
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{mkdir \emph{dir}}} — create directory \emph{dir}} \tn 
+% Row Count 4 (+ 2)
+% Row 21
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{vim {\emph{file}}}} — open {\emph{file}} in vim text editor} \tn 
+% Row Count 6 (+ 2)
+% Row 22
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{nano {\emph{file}}}} — open {\emph{file}} in nano text editor} \tn 
+% Row Count 8 (+ 2)
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{File Searching}}  \tn
+% Row 0
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{find}} — search for a file or directory on your file system} \tn 
+% Row Count 2 (+ 2)
+% Row 1
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{find /home -name *.jpg}} — find all {\emph{.jpg}} files in the {\emph{/home}} and sub-directories} \tn 
+% Row Count 4 (+ 2)
+% Row 2
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{grep}} — searches through {\emph{files}} for a particular pattern of characters, and displays all lines that contain that pattern} \tn 
+% Row Count 8 (+ 4)
+% Row 3
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{grep -r {\emph{pattern}} {\emph{dir}}}} — search recursively for pattern in {\emph{dir}}} \tn 
+% Row Count 10 (+ 2)
+% Row 4
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{locate {\emph{file}}}} — locate a file} \tn 
+% Row Count 11 (+ 1)
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+\begin{tabularx}{8.6cm}{x{3.44 cm} x{4.56 cm} }
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Help/Info Commands}}  \tn
+% Row 0
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{help}} — provide information related to Shell \underline{built-in} commands} \tn 
+% Row Count 2 (+ 2)
+% Row 1
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{type}} — provides the command type} \tn 
+% Row Count 4 (+ 2)
+% Row 2
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{whatis}} — a one-line description} \tn 
+% Row Count 6 (+ 2)
+% Row 3
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{man}} — manual or `man pages' for a given command, plain text} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{info}} — in-depth document for a given command, hypertext} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{apropos}} — find a command's name} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{which}} — in-depth document for a given command, hypertext}  \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}--}
+\end{tabularx}
+
+
+\par\addvspace{1.1em}
+
+\begin{tabularx}{8.4cm}{x{3.44 cm} x{4.56 cm} }
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Redirection/Pipes}}  \tn
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{"<" - Input redirection }} — Redirects the standard input of a command to a file.}  \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{">" - Output redirection}} — Redirects the standard output of a command to a file, if it already exists, it will be \underline{overwritten}} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{"|" Pipe - Chaining commands}} — Sends the output of one command as input for another}  \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+
+\par\addvspace{1.3em}
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{System}}  \tn
+% Row 0
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{htop}} — allows user to monitor many different system statistics} \tn 
+% Row Count 2 (+ 2)
+% Row 1
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{du}} — display disk usage statistics} \tn 
+% Row Count 3 (+ 1)
+% Row 2
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{df}} — display free disk space} \tn 
+% Row Count 4 (+ 1)
+% Row 3
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{free}} — display amount of free and used memory in the system} \tn 
+% Row Count 6 (+ 2)
+% Row 4
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{kill}} — get rid of a command in the background} \tn 
+% Row Count 8 (+ 2)
+% Row 5
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{shutdown now}} — shutdown machine} \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Download and Unpack}}  \tn
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{curl -o {\emph{file-name}} {\emph{file-url}}}} — download the file with the name provided} \tn 
+% Row 0
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{wget {\emph{file-url}}}} — download a file} \tn 
+% Row Count 1 (+ 1)
+% Row 1
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{tar -xzf {\emph{tar-file}}}} — extract a tar file} \tn 
+% Row Count 2 (+ 1)
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Process Management}}  \tn
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{ps}} — show a snapshot of all processes} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{top}} — shows real time processes} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{kill \emph{pid}}} — kill process with id \emph{pid}} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{pkill \emph{name}}} — kill process with name \emph{name}} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{killall \emph{name}}} — kill all processes with name starting with \emph{name}} \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Important Directories}}  \tn
+% Row 0
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{/}} — root directory} \tn 
+% Row Count 1 (+ 1)
+% Row 1
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{/bin}} — the most essential Unix commands (such as {\emph{ls}})} \tn 
+% Row Count 3 (+ 2)
+% Row 2
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{/boot}} — location where the kernel and other files used during booting are sometimes stored} \tn 
+% Row Count 5 (+ 2)
+% Row 3
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{/dev}} — contains device files, the interface between the filesystem and the hardware} \tn 
+% Row Count 7 (+ 2)
+% Row 4
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{/etc}} — contains configuration files, which can generally be edited by hand in a text editor} \tn 
+% Row Count 9 (+ 2)
+% Row 5
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{/home}} — contains a home folder for each user} \tn 
+% Row Count 15 (+ 1)
+% Row 8
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{/lib}} — contains libraries needed by the essential binaries in the {\emph{/bin}} and {\emph{/sbin}} folder} \tn 
+% Row Count 17 (+ 2)
+% Row 9
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{/opt}} — contains subdirectories for optional software packages} \tn 
+% Row Count 19 (+ 2)
+% Row 10
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{/proc}} — the interface between the filesystem and the running processes, the CPU and memory} \tn 
+% Row Count 21 (+ 2)
+% Row 11
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{/root}} — the home directory of the root user} \tn 
+% Row Count 22 (+ 1)
+% Row 12
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{/sbin}} — very common commands used by the superuser for system administration} \tn 
+% Row Count 24 (+ 2)
+% Row 13
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{/tmp}} — temporary files stored by applications} \tn 
+% Row Count 26 (+ 2)
+% Row 14
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{/usr}} — contains applications and files used by users} \tn 
+% Row Count 28 (+ 2)
+% Row 15
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{/usr/bin}} — application/distribution binaries meant to be accessed by locally logged in users} \tn 
+% Row Count 30 (+ 2)
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{/$\sim$} or \textbf{/home/\$USER}} — home directory} \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Ownership and Permissions}}  \tn
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{sudo}} — log in or run program as root user} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{adduser}} — create a user account (as root)} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{passwd {\emph{account}}}} — set password for {\emph{account}} (as root)} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{userdel -r {\emph{account}}}} — delete an account and account's home directory (as root)} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{chown}} — change owner of a file} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{chown {\emph{userid}} /home/{\emph{userid}}/}} — make user account owner of home directory (as root)} \tn 
+% Row Count 10 (+ 2)
+% Row 7
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{chgrp}} — change group} \tn 
+% Row Count 11 (+ 1)
+% Row 8
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{chmod ugo {\emph{file}}}} — change the user, group, and others permissions for {\emph{file}} (ugo given in base 8, where u is the user, g is the group, and o is others)} \tn 
+% Row Count 15 (+ 4)
+% Row 9
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{chmod {[}ugo{]}{[}+-={]}{[}rwx{]} {\emph{file}}}} — give, take away, or set the read, write, and/or execute permissions for user, group and/or others for {\emph{file}}} \tn 
+% Row Count 18 (+ 3)
+% Row 10
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{7}} — read, write and execute permissions} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{4}} — read permissions} \tn 
+% Row Count 22 (+ 1)
+% Row 14
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{2}} — write permissions} \tn 
+% Row Count 24 (+ 1)
+% Row 16
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{1}} — execute permissions} \tn 
+% Row Count 25 (+ 1)
+% Row 17
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{0}} — no permissions} \tn 
+% Row Count 26 (+ 1)
+% Row 18
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{chmod 644 {\emph{file}}}} — standard permissions for files} \tn 
+% Row Count 28 (+ 2)
+% Row 19
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{chmod 755 {\emph{dir}}}} — standard permissions for directories} \tn 
+% Row Count 30 (+ 2)
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Environment Variables}}  \tn
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{printenv}} — list all current environment variables} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{\$PATH}} — the directories where the shell will look for the command binaries} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{\$HOME}} — your home directory} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{\$UID}} — user ID for the current user} \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Environment Variables (cont)}}  \tn
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{\$USER}} — the user that is currently logged in} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{\$EDITOR}} — the system's default editor} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{\$SHELL}} — the current shell being used} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{\$PWD}} — the current directory} \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Secure Shell}}  \tn
+% Row 0
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{ssh}} — gives {\emph{ssh}} command information} \tn 
+% Row Count 1 (+ 1)
+% Row 1
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{ssh {\emph{username}}@{\emph{ip-address}}}} — log into remote system} \tn 
+% Row Count 3 (+ 2)
+% Row 2
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{ssh-keygen}} — generate public/private key pair} \tn 
+% Row Count 5 (+ 2)
+% Row 3
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{ssh-add}} — command for adding SSH private keys into the SSH authentication agent for implementing single sign-on with SSH} \tn 
+% Row Count 8 (+ 3)
+% Row 4
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{ssh-keyscan}} — for retrieving public keys from servers} \tn 
+% Row Count 10 (+ 2)
+% Row 5
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{scp {\emph{file-path}} {\emph{username@ip-address}}:}} — copy a file from your local system to remote system} \tn 
+% Row Count 12 (+ 2)
+% Row 6
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{scp {\emph{username@ip-address}}:{\emph{file-path}}}} — copy a file from the remote system to your own system} \tn 
+% Row Count 14 (+ 2)
+% Row 7
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{scp -r {\emph{username@ip-address}}:{\emph{directory}}}} — copy a directory from the remote system to your own system} \tn 
+% Row Count 17 (+ 3)
+% Row 8
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{exit}} — terminate the shell} \tn 
+% Row Count 18 (+ 1)
+% Row 9
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{\textasciitilde{} + Ctrl-Z}} — suspend the remote login session} \tn 
+% Row Count 20 (+ 2)
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{System Logs}}  \tn
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{who}} — produce information on who is logged in} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{journalctl}} — view the log of the entire system} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{dmesg}} — view all kernel messages from the last boot of the machine} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{last}} — display last user logins} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\bf{history}} — list previous commands used} \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+% That's all folks
+\end{multicols*}
+ % \end{landscape}
+\end{document}
