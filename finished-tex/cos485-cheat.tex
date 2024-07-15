@@ -1,0 +1,537 @@
+%\documentclass[10pt,a4paper]{article}
+\documentclass[landscape, 12pt,a4paper]{report}
+% Packages
+\usepackage{fancyhdr}           % For header and footer
+\usepackage{multicol}           % Allows multicols in tables
+\usepackage{tabularx}           % Intelligent column widths
+\usepackage{tabulary}           % Used in header and footer
+\usepackage{hhline}             % Border under tables
+\usepackage{graphicx}           % For images
+\usepackage{xcolor}             % For hex colours
+%\usepackage[utf8x]{inputenc}    % For unicode character support
+\usepackage[T1]{fontenc}        % Without this we get weird character replacements
+\usepackage{colortbl}           % For coloured tables
+\usepackage{setspace}           % For line height
+\usepackage{lastpage}           % Needed for total page number
+\usepackage{seqsplit}           % Splits long words.
+%\usepackage{opensans}          % Can't make this work so far. Shame. Would be lovely.
+\usepackage[normalem]{ulem}     % For underlining links
+% Most of the following are not required for the majority
+% of cheat sheets but are needed for some symbol support.
+\usepackage{amsmath}            % Symbols
+\usepackage{MnSymbol}           % Symbols
+\usepackage{wasysym}            % Symbols
+\usepackage{amssymb}
+\usepackage[margin=1.65in]{geometry}
+
+\usepackage{pdflscape}
+\usepackage{adjustbox}
+
+% Document Info
+\author{James Quinlan}
+\pdfinfo{
+  /Title (cos280.pdf)
+  /Creator (James Quinlan)
+  /Author (Ethan Gilles)
+  /Subject (Discrete Math II Cheatsheet)
+}
+
+% Lengths and widths
+\addtolength{\textwidth}{7cm}
+\addtolength{\textheight}{3cm}  % -1
+\addtolength{\hoffset}{-3.2cm}
+\addtolength{\voffset}{-3cm}
+\setlength{\tabcolsep}{0.3cm} % Space between columns og=0.2
+\setlength{\headsep}{-12pt} % Reduce space between header and content
+\setlength{\headheight}{85pt} % If less, LaTeX automatically increases it
+\renewcommand{\footrulewidth}{0pt} % Remove footer line
+\renewcommand{\headrulewidth}{0pt} % Remove header line
+\renewcommand{\seqinsert}{\ifmmode\allowbreak\else\-\fi} % Hyphens in seqsplit
+% This two commands together give roughly
+% the right line height in the tables
+\renewcommand{\arraystretch}{1.3}
+\onehalfspacing
+
+% Commands
+\newcommand{\SetRowColor}[1]{\noalign{\gdef\RowColorName{#1}}\rowcolor{\RowColorName}} % Shortcut for row colour
+\newcommand{\mymulticolumn}[3]{\multicolumn{#1}{>{\columncolor{\RowColorName}}#2}{#3}} % For coloured multi-cols
+\newcolumntype{x}[1]{>{\raggedright}p{#1}} % New column types for ragged-right paragraph columns
+\newcommand{\tn}{\tabularnewline} % Required as custom column type in use
+
+% Font and Colours
+\definecolor{LogoBack}{HTML}{ffffff}
+
+\definecolor{HeadBackground}{HTML}{336699}
+\definecolor{FootBackground}{HTML}{9fa1a4}
+\definecolor{TextColor}{HTML}{231f20}
+\definecolor{DarkBackground}{HTML}{163e70} % 1D41A3
+\definecolor{LightBackground}{HTML}{D8DEEF}
+\renewcommand{\familydefault}{\sfdefault}
+\color{TextColor}
+
+
+
+
+% Header and Footer
+\pagestyle{fancy}
+\fancyhead[L]{
+\noindent
+\begin{multicols}{3}
+\begin{tabulary}{5.8cm}{C}
+    \SetRowColor{LogoBack}
+    \vspace{-7pt}
+    {\parbox{\dimexpr\textwidth-2\fboxsep\relax}{\noindent
+        \hspace*{-6pt}\includegraphics[width=5.8cm]{logo.jpg}\\Department of Computer Sciences}
+    }
+\end{tabulary}
+\columnbreak
+\begin{tabulary}{11cm}{L}
+    \vspace{-2pt}\large{\bf{\textcolor{DarkBackground}{\textsf{COS 485}}}} \\
+    \normalsize{ \textcolor{DarkBackground}{Department of Computer Sciences}}
+\end{tabulary}
+\columnbreak
+\begin{tabulary}{11cm}{L}
+    \vspace{-2pt}\large{\bf{\textcolor{DarkBackground}{\textsf{Design/Analysis of Comp Algorithms}}}} \\
+    \normalsize{ \textcolor{DarkBackground}{Department of Computer Sciences}}
+\end{tabulary}
+\end{multicols}}
+
+
+
+
+\fancyfoot[L]{ \footnotesize
+\noindent
+\begin{multicols}{3}
+\begin{tabulary}{5.8cm}{LL}
+  \SetRowColor{FootBackground}
+  \mymulticolumn{2}{p{5.377cm}}{\bf\textcolor{white}{Programs}}  \\
+  \vspace{-2pt}BS Computer Science \\
+  MS Data Science\\
+  \end{tabulary}
+\vfill
+\columnbreak
+\begin{tabulary}{5.8cm}{L}
+  \SetRowColor{FootBackground}
+  \mymulticolumn{1}{p{5.377cm}}{\bf\textcolor{white}{Cheat Sheet}}  \\
+   \vspace{-2pt}Published ???, 2024.\\
+   Updated ???, 2024.\\
+\end{tabulary}
+\vfill
+\columnbreak
+\begin{tabulary}{5.8cm}{L}
+  \SetRowColor{FootBackground}
+  \mymulticolumn{1}{p{5.377cm}}{\bf\textcolor{white}{Contact}}  \\
+  \SetRowColor{white}
+  \vspace{-5pt}
+  Dr. James Quinlan\\
+  Chair, Dept. of Computer Science\\
+\end{tabulary}
+\end{multicols}}
+
+
+
+
+\begin{document}
+\raggedright
+\raggedcolumns
+% \begin{landscape}
+% Set font size to small. Switch to any value
+% from this page to resize cheat sheet text:
+% www.emerson.emory.edu/services/latex/latex_169.html
+\footnotesize % Small font.
+\begin{multicols*}{3}
+
+
+\begin{tabularx}{8.6cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.6cm}}{\bf\textcolor{white}{General Notation}}  \tn
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\huge $\neg$} $\rightarrow$ Not} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\Large $\exists$} $\rightarrow$ There exists} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\Large $:$} $\rightarrow$ Such that} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\Large $\forall$} $\rightarrow$ For all} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\Large $\equiv$/$\Leftrightarrow$} $\rightarrow$ Equivalent} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\big $\implies$} $\rightarrow$ Implies} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\Large $\in$} $\rightarrow$ Is in/Belongs to} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\Large $\wedge$} $\rightarrow$ And} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\Large $\vee$} $\rightarrow$ Or} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\Large $\nearrow$} $\rightarrow$ Strictly increasing} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\Large $\searrow$} $\rightarrow$ Strictly decreasing} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\Large $\nersquigarrow$} $\rightarrow$ Eventually increasing} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\Large $\sersquigarrow$} $\rightarrow$ Eventually decreasing} \tn 
+
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Sets of Numbers}}  \tn
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\large $\mathbb{Z}$} $\rightarrow$ Integers } \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\large $\mathbb R$} $\rightarrow$ Real numbers} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\large $\mathbb{Q}$} $\rightarrow$ Rational numbers} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\large $\mathbb N$} $\rightarrow$ Natural numbers} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\large $\mathbb P$} $\rightarrow$ Prime numbers} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\Large u} $\rightarrow$ Universal set (everything)} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\large $\varnothing$, $\{\}$} $\rightarrow$ Empty set (nothing)} \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+
+\par\addvspace{1.3em}
+
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Common Operations}}  \tn
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Floor}} $\lfloor n \rfloor$ $\rightarrow$ Truncate $n$} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Ceiling}} $\lceil n \rceil$ $\rightarrow$ Round up $n$} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Factorial}} $n!$ $\rightarrow$ $1 \times 2 \times 3 \times 4 \times \cdots \times n$} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Summation}} $\sum_{k=1}^{n} f(k)$ $\rightarrow$ $\sum_{k=1}^{5} 2k = 2 + 4 + 6 + 8 + 10$} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Binomial}} $\binom{n}{k}$ $\rightarrow$ $\frac{n!}{k!(n-k)!}$} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Divides}} $n \,|\, k$ $\rightarrow$ iff $\exists c \in \mathbb{Z} : k = nc$} \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Rules of Logarithms}}  \tn
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{\fontsize{11} $\log_{b} x = y \Longleftrightarrow b^y = x$ } \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{\fontsize{11} $b^{\log_{b} x} \Longleftrightarrow x$} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{\fontsize{11} $\log_{b} (b^x) \Longleftrightarrow x$} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{\fontsize{11} $\log_{b} (xy) \Longleftrightarrow \log_{b} x + \log_{b} y$} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{\fontsize{11} $\log_{b} (x/y) \Longleftrightarrow \log_{b} x - \log_{b} y$} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{\fontsize{11} $x^{\log_{b} n} = n^{\log_{b} x}$} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{\fontsize{11} $\log_{b} (x^y) \Longleftrightarrow y \times \log_{b} x$} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{\fontsize{11} $x^{\log_{b} n} = n^{\log_{b} x}$} \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Big-O, o, $\Omega$ and $\Theta \; (\forall n > n_{0})$}}  \tn
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{$f(n) \in O(g(n))$} $\rightarrow$ $\exists C : 0 \le f(n) \le Cg(n)$} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{$f(n) \in o(g(n))$} $\rightarrow$ $\forall C > 0 : 0 \le f(n) < Cg(n)$} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{$f(n) \in \Omega(g(n))$} $\rightarrow$ $\exists C : 0 \le Cg(n) \le f(n)$} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{$f(n) \in \Theta(g(n))$} $\rightarrow$ $\exists A,B : Ag(n) \le f(n) \le Bg(n)$} \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Common Time-Complexities}}  \tn
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Constant}} $\rightarrow$ $O(1)$} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Logarithmic}} $\rightarrow$ $O(\log n)$} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Linear}} $\rightarrow$ $O(n)$} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Quasi-Linear}} $\rightarrow$ $O(n \log n)$} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Quadratic}} $\rightarrow$ $O(n^2)$} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Cubic}} $\rightarrow$ $O(n^3)$} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Exponential}} $\rightarrow$ $O(2^n)$} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Factorial}} $\rightarrow$ $O(n!)$} \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Proof Types (For $P \implies Q$)}}  \tn
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Direct}} $\rightarrow$ Assume $P$, then use rules of logic to prove $Q$} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Cases/Exhaustion}} $\rightarrow$ $P_{1} \vee P_{2} \vee \cdots \vee P_{n} \implies Q$} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Contradiction}} $\rightarrow$ Assume $P$ and derive $P \not \implies Q$} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\textbf{Inductive}} $\rightarrow$ $P(1) \wedge P(k+1) \implies P(k)$} \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Common Series}}  \tn
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\fontsize{11} $\sum\limits_{k=1}^{n} k$} \fontsize{11} $\rightarrow$ $1 + 2 + 3 + \cdots + n = \frac{n(n+1)}{2}$} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\fontsize{11} $\sum\limits_{k=1}^{n} k^2$} $\rightarrow$ \fontsize{11} $1 + 2^2 + 3^2 + \cdots + n^2 = \frac{n(n+1)(2n+1)}{6}$} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\fontsize{11} $\sum\limits_{k=1}^{n} k^3$} $\rightarrow$ \fontsize{11} $1 + 2^3 + 3^3 + \cdots + n^3 = \left[\frac{n(n+1)}{2}\right]^2$} \tn 
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{{\fontsize{11} $\sum\limits_{k=1}^{n} ar^{k-1}$} $\rightarrow$ \fontsize{11} $ar^0 + ar^1 + ar^2 + \cdots + ar^{n-1} = a\left(\frac{1-r^n}{1-r}\right)$} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{{\fontsize{11} $\sum\limits_{k=0}^{n} \binom{n}{k} \rightarrow \fontsize{11} \ \binom{n}{0} + \binom{n}{1} + \binom{n}{2} + \cdots + \binom{n}{n} = 2^n$}$} \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Solving Recurrence Relations}}  \tn
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{
+The general steps for solving a recurrence relation are 
+
+\begin{itemize}
+  \item Find an explicit solution using the Characteristic Equation
+  \item Verify solution using an inductive proof
+\end{itemize}
+
+First use Algebra to take a simple Recurrence Relation and turn it into a LHRRCC
+
+$T_{n} = T_{n-1} + T_{n-2}$ \newline
+
+LHRRCC is a Linear Homogeneous Recurrence Relation with Constant Coefficients. 
+
+$T_{n} - T_{n-1} - T_{n-2} = 0$ \newline
+
+Use the Characteristic Equation, where C is the coefficient from the LHRRCC: 
+
+$C_{0}X^k + C_{1}X^{k-1} + C_{2}X^{k-2} + \cdots + C_{k} = 0$ \newline
+
+For this example it would be
+
+$x^2 - x - 1 = 0 \implies x = \frac{1 \pm \sqrt{5}}{2}$ \newline
+
+Then solve for x and substitute into the General Solution
+
+$f_{n} = Ax_{1}^n + Bx_{1}^n$ \newline
+
+Next, use the initial conditions to solve for the explicit solution
+
+$f_{n} = A\left(\frac{1 + \sqrt{5}}{2}\right)^n + B\left(\frac{1 - \sqrt{5}}{2}\right)^n$ \newline
+
+Finally, veryify the explicit solution that was found using an inductive proof.
+} \tn 
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Divide and Conquer}}  \tn
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{
+If $f(n)$ is the number of operations required to solve an intial problem, then a Divide and Conquer Recurrence Relation will look like
+
+$f(n) = \underbrace{a}_{\mathclap{\textrm{subproblems}}} f\overbrace{\underbrace{\left(\frac{n}{b}\right)}}_{\textrm{branching factor}}^{\textrm{input size}} + \; \underbrace{g(n)}_{\textrm{work per level}}$ 
+
+where $n = b^k$, $k \ge 1$ \newline
+
+\textit{Theorem}: Suppose $f \nearrow$ (\textit{is strictly increasing}), $b \; | \; n$, $a \ge 1$, $b \ge 1$, $c \in \R^+ : f(n) = af\left(\frac{n}{b}\right) + O(1)$, then \newline
+
+$f(n) \in \begin{cases}
+    O(n^{\log_{b}a}) & \textrm{if } a > 1 \\ 
+    O(\log_{b} n) & \textrm{if } a = 1
+  \end{cases}
+$
+} \tn 
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Master Theorem}}  \tn
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{Suppose a complexity function $T(n)$ is eventually \newline 
+non-decreasing and satisfies  \newline
+
+$T(n) = aT\left(\frac{n}{b}\right) + O(n^d)$ for $ n > 1 \textrm{, } n \textrm{ a power of } b $\newline 
+$T(1) = c$ \newline
+
+Where $b \ge 2$ and $d \ge 0$ are constant \textit{integers}, and $a$ and $c$ are constant such that 
+ $a > 0$ and $c > 0$. \newline
+
+$T(n) \in 
+  \begin{cases}
+    \Theta(n^d) & \textrm{if } a < b^d \\
+    \Theta(n^d \lg n) & \textrm{if } a = b^d \\
+    \Theta(n^{\log_{b} a}) & \textrm{if } a > b^d
+  \end{cases} $
+} \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Greedy Algorithms}}  \tn
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{
+Greedy algorithms are a class of algorithms that make 
+\textbf{locally optimal} choices at each step with the hope of finding a 
+\textbf{global optimum} solution. 
+The idea is to select the best local choice at each step, 
+leading to a solution that may or may not be the most optimal but 
+is often good enough.
+Problems that are solved using Greedy Algorithms include 
+\begin{itemize}
+  \item Knapsack Problem
+  \item Shortest Path (Graph)
+  \item Minimal Spanning Tree
+\end{itemize}
+} \tn 
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Dynamic Programming (DP)}}  \tn
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{
+DP solves problems by breaking them down into simpler \textbf{subproblems}. 
+By solving each subproblem only once and storing the results, 
+it avoids repeating computations and is more efficient. Dynamic Programming algorithms
+can use either a `Top-Down' approach or a `Bottom-Up' approach which use 
+\textbf{memoization} or \textbf{tabulation} to store subproblems, respectively.
+Some examples of problems that use Dynamic Programming are:
+
+\begin{itemize}
+  \item Fibonacci Sequence
+  \item Shortest Path (Graph)
+  \item Chain Matrix Multiplication
+\end{itemize}
+
+} \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+
+% That's all folks
+\end{multicols*}
+ % \end{landscape}
+\end{document}
