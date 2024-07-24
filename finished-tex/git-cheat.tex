@@ -276,8 +276,8 @@ Create a new branch at the current commit} \tn
 Delete the specified branch at the current commit} \tn 
 
 \SetRowColor{LightBackground}
-\mymulticolumn{1}{x{8.4cm}}{\verb|git branch -m [existing-branch] [new-branch]| \newline
-Rename the specified branch at the current commit} \tn 
+\mymulticolumn{1}{x{8.4cm}}{\verb|git remote add upstream URL.git| \newline
+Add `upstream' repository to sync changes made in a forked repo} \tn 
 
 \SetRowColor{white}
 \mymulticolumn{1}{x{8.4cm}}{\verb|git checkout [branch-name]| \newline 
@@ -349,33 +349,7 @@ Fetch and merge any commits from the tracking remote branch} \tn
 
 \hhline{>{\arrayrulecolor{DarkBackground}}-}
 \end{tabularx}
-\par\addvspace{0.9em}
-
-
-
-\begin{tabularx}{8.4cm}{X}
-\SetRowColor{DarkBackground}
-\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Temporary Commits}}  \tn
-
-\SetRowColor{white}
-\mymulticolumn{1}{x{8.4cm}}{\verb|git stash| \newline 
-Save modified and staged changes in a stack} \tn 
-
-\SetRowColor{LightBackground}
-\mymulticolumn{1}{x{8.4cm}}{\verb|git stash list| \newline 
-List stack-order of stashed file changes} \tn 
-
-\SetRowColor{white}
-\mymulticolumn{1}{x{8.4cm}}{\verb|git stash pop| \newline
-Write the working changes from the top of the stash stack} \tn 
-
-\SetRowColor{LightBackground}
-\mymulticolumn{1}{x{8.4cm}}{\verb|git stash drop| \newline 
-Discard the working changes from the top of the stash stack} \tn 
-
-\hhline{>{\arrayrulecolor{DarkBackground}}-}
-\end{tabularx}
-\par\addvspace{0.9em}
+\par\addvspace{1.3em}
 
 
 
@@ -402,6 +376,28 @@ Revert to a previous commit} \tn
 \SetRowColor{white}
 \mymulticolumn{1}{x{8.4cm}}{\verb|git revert [commit id]| \newline 
 Undo the specified commit} \tn 
+
+\hhline{>{\arrayrulecolor{DarkBackground}}-}
+\end{tabularx}
+\par\addvspace{1.3em}
+
+
+
+\begin{tabularx}{8.4cm}{X}
+\SetRowColor{DarkBackground}
+\mymulticolumn{1}{x{8.4cm}}{\bf\textcolor{white}{Tokens}}  \tn
+
+\SetRowColor{LightBackground}
+\mymulticolumn{1}{x{8.4cm}}{\verb|git remote set-url origin| \newline
+\verb|https://<NEW_TOKEN>@github.com/username/repo.git| \newline 
+Set the remote repository using a Personal Access Token} \tn 
+
+\SetRowColor{white}
+\mymulticolumn{1}{x{8.4cm}}{Tokens can also be used to authenticate in the command line, for example: \newline
+  \verb|$ git clone https://github.com/USERNAME/REPO.git| \newline
+  \verb|Username: YOUR-USERNAME| \newline
+  \verb|Password: YOUR-PERSONAL-ACCESS-TOKEN|} \tn 
+
 
 \hhline{>{\arrayrulecolor{DarkBackground}}-}
 \end{tabularx}
